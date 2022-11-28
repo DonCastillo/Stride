@@ -9,6 +9,7 @@ import '../css/icons.css';
 import '../css/app.css';
 // Import Cordova APIs
 import cordovaApp from './cordova-app.js';
+import customCordovaApp from './custom-cordova.js';
 
 // Import Routes
 import routes from './routes.js';
@@ -47,6 +48,7 @@ var app = new Framework7({
       if (f7.device.cordova) {
         // Init cordova APIs (see cordova-app.js)
         cordovaApp.init(f7);
+        customCordovaApp.init(f7);
       }
     },
   },
