@@ -17,8 +17,8 @@ var customCordovaApp = {
 
         var geoSuccess = function (position) {
             console.log('position', position)
-            const lat = position.coords.latitude;
-            const long = position.coords.longitude;
+            lat = position.coords.latitude;
+            long = position.coords.longitude;
 
             // initialize map object
             map = new mapboxgl.Map({
