@@ -26,14 +26,13 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-keyboard": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-geolocation": {},
+      "cordova-plugin-geolocation": {
+        "GPS_REQUIRED": "true"
+      },
       "cordova-plugin-background-mode": {}
     },
     "platforms": [
       "android"
     ]
-  },
-  "dependencies": {
-    "@felicienfrancois/cordova-plugin-stepper": "^0.2.60"
   }
 }
