@@ -1,9 +1,6 @@
 import $ from 'jquery';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-// import stepper from '../../cordova/plugins/cordova-plugin-stepper/www/stepper';
-// import {stepper} from '@felicienfrancois/cordova-plugin-stepper';
-// import stepper from ''
 mapboxgl.accessToken = 'pk.eyJ1IjoiZG9uY2FzdGlsbG8iLCJhIjoiY2p6cTN2eDhwMHdqZjNvanNhMGk0cTRhaCJ9.rfa3wF7Pz3VRhpyENHGCpQ'
 
 var customCordovaApp = {
@@ -50,7 +47,7 @@ var customCordovaApp = {
 
 
     },
-    ped: function () {
+    pedometer: function () {
         let prevMagnitude = 0;
         let stepCount = 0;
         let threshold = 6;
@@ -62,12 +59,12 @@ var customCordovaApp = {
             let magnitudeDelta = curMagnitude + prevMagnitude / 2;
             prevMagnitude = curMagnitude;
 
-            if(magnitudeDelta > threshold && flag == 0) {
+            if (magnitudeDelta > threshold && flag == 0) {
                 stepCount++;
                 flag = 1;
-            }else if(magnitudeDelta > threshold && flag == 1) {
+            } else if(magnitudeDelta > threshold && flag == 1) {
                 // don't count
-            }else{
+            } else{
 
             }
             
@@ -83,24 +80,18 @@ var customCordovaApp = {
 
             console.log('step count: ', stepCount);
 
-
         }, true)
-
-
-
-
-
-
     },
     init: function (f7) {
         console.log('init customcordova app')
         customCordovaApp.f7 = f7;
 
         document.addEventListener('deviceready', () => {
-            // console.log('init geolocation')
-            // customCordovaApp.geolocation();
+            console.log('init geolocation')
+            customCordovaApp.geolocation();
+
             console.log('init pedo')
-            customCordovaApp.ped();
+            customCordovaApp.pedometer();
         });
 
     }

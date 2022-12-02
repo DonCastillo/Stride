@@ -1,8 +1,64 @@
 <template>
   <div class="page" data-name="home">
     <div class="page-content" style="background-color:orange;">
-      <div id="map">
+      <div id="dashboard">
+        <div id="map"></div>
+        <div id="stats">
 
+          <div class="block bg-pink">
+            <div class="row">
+              
+                <!-- distance travelled -->
+                <div class="col text-align-center">
+                    <div class="stat-icon">
+                      <i class="fa-solid fa-ruler"></i>
+                    </div>
+                    <div>
+                      <span id="distance-travelled" class="stat-text">0</span> KM
+                    </div>
+                </div>
+
+                <!-- elapsed time -->
+                <div class="col text-align-center">
+                  <div class="stat-icon">
+                    <i class="fa-solid fa-stopwatch"></i>
+                  </div>
+                  <div id="elapsed-time" class="stat-text">
+                    0:00:00
+                  </div>
+                </div>
+
+                <!-- step count -->
+                <div class="col text-align-center running-block-top">
+                  <div class="stat-icon">
+                    <i class="fa-solid fa-person-running"></i>
+                  </div>
+                  <div class="stat-text">
+                    <span id="step-count-top">0</span> steps
+                  </div>
+                </div>
+
+            </div>
+          </div>
+
+          <div class="block running-block-bottom text-align-center bg-pink">
+            <div class="row display-inline-flex flex-direction-row justify-content-center align-items-center">
+              <div class="stat-icon">
+                <i class="fa-solid fa-person-running"></i>
+              </div>
+              <div class="stat-text">
+                <span id="step-count-bottom">0</span> steps
+              </div>
+            </div>
+          </div>
+
+          <div class="block bg-pink">
+            <div class="row">
+              <button class="col button button-large button-raised button-fill">Raised Fill</button>
+            </div>
+          </div>
+          
+        </div>
       </div>
     </div>
   </div>

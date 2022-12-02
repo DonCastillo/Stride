@@ -15,6 +15,7 @@ import customCordovaApp from './custom-cordova.js';
 import routes from './routes.js';
 // Import Store
 import store from './store.js';
+// import stride from './stride.js';
 
 // Import main app component
 import App from '../app.f7';
