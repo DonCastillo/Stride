@@ -15,10 +15,8 @@ var customCordovaApp = {
             enableHighAccuracy: true,
         }
 
-        var geoSuccess = function (position) {
-            console.log('position', position)
-            lat = position.coords.latitude;
-            long = position.coords.longitude;
+
+        var initMap = function() {
 
             // initialize map object
             map = new mapboxgl.Map({
@@ -28,22 +26,42 @@ var customCordovaApp = {
                 zoom: zoom
             });
 
-            marker = new mapboxgl.Marker()
-                        .setLngLat([long, lat])
-                        .addTo(map);
-
-            console.log('map: ', map)
-            
-
-            // $('#coordinates').append(`<p>${position.coords.latitude}, ${position.coords.longitude}</p>`)
-        } 
-
-        var geoError = function (error) {
-            console.log('error: ', error.message);
+            // set initial marker location
+            marker = new mapboxgl.Marker().setLngLat([long, lat]).addTo(map);                         
         }
 
-        navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOpts);
-        // navigator.geolocation.watchPosition(geoSuccess, geoError, geoOpts);
+        var updateMap = function() {
+            map.setCenter([long, lat]);
+            marker.setLngLat([long, lat]).addTo(map);
+        }
+
+
+        var currentGeoSuccess = function (position) {
+            lat = position.coords.latitude;
+            long = position.coords.longitude;
+            initMap();
+        } 
+
+        var currentGeoError = function (error) {
+            console.log('error: ', error.message);
+            // cannot render map
+        }
+
+        var watchGeoSuccess = function (position) {
+            console.log('getting watch postion');
+            // console.log('position: ', position)
+            lat = position.coords.latitude;
+            long = position.coords.longitude;
+            initMap();
+        }
+
+        var watchGeoError = function (error) {
+            console.log('error: ', error.message);
+            // cannot update location
+        }
+
+        navigator.geolocation.getCurrentPosition(currentGeoSuccess, currentGeoError, geoOpts);
+        navigator.geolocation.watchPosition(watchGeoSuccess, watchGeoError, geoOpts);
 
 
     },
@@ -76,7 +94,8 @@ var customCordovaApp = {
                 stepCount = 0;
             }
 
-            $('#map').html(stepCount)
+            $('#step-count-top').text(stepCount);
+            $('#step-count-bottom').text(stepCount);
 
             console.log('step count: ', stepCount);
 
