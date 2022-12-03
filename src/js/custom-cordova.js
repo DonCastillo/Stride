@@ -52,7 +52,7 @@ var customCordovaApp = {
             // console.log('position: ', position)
             lat = position.coords.latitude;
             long = position.coords.longitude;
-            initMap();
+            updateMap();
         }
 
         var watchGeoError = function (error) {
