@@ -28,7 +28,7 @@
 <body>
   <div id="app"></div>
   <% if (TARGET === 'cordova') { %>
-  <script src="cordova.js"></script>
+  <script type="module" src="cordova.js"></script>
   <% } %>
   <script type="module" src="./js/app.js"></script>
   <script type="module" src="./js/stride.js"></script>
