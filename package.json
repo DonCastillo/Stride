@@ -25,7 +25,9 @@
     "Samsung >= 12"
   ],
   "dependencies": {
+    "@turf/turf": "^6.5.0",
     "dom7": "^4.0.4",
+    "easytimer.js": "^4.5.4",
     "framework7": "^7.0.9",
     "framework7-icons": "^5.0.5",
     "jquery": "^3.6.1",

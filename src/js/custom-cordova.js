@@ -2,10 +2,15 @@ import $ from "jquery";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import * as turf from '@turf/turf';
+// import Timer from 'easytimer.js';
 mapboxgl.accessToken =
 	"pk.eyJ1IjoiZG9uY2FzdGlsbG8iLCJhIjoiY2p6cTN2eDhwMHdqZjNvanNhMGk0cTRhaCJ9.rfa3wF7Pz3VRhpyENHGCpQ";
 
 $(document).on("page:init", '.page[data-name="home"]', function (e) {});
+
+
+
+
 
 var customCordovaApp = {
 	f7: null,
@@ -22,6 +27,7 @@ var customCordovaApp = {
         var initMarker;
         var currMarker;
         var distance = 0;
+        var unit = 'M';
 
 		var directionHistory = []; // contains history of coordinates as updated by the watchPosition
 		var geoOpts = {
@@ -38,22 +44,19 @@ var customCordovaApp = {
 			});
 
 			initMarker = new mapboxgl.Marker({color: 'gray'}).setLngLat([initLong, initLat]).addTo(map);
-			currMarker = new mapboxgl.Marker({}).setLngLat([currLong, currLat]).addTo(map);
+			currMarker = new mapboxgl.Marker({}).setLngLat([initLong, initLat]).addTo(map);
             getDistance();
 
-			console.log("page init");
-
 			map.on("load", () => {
-			    console.log("mad loaded");
 			    setInterval(updateMap, 2000);
 			});
 		};
 
 
 		var updateMap = function () {
-			console.log("updating map");
-            console.log('start date: ', initMarker.getLngLat())
-            console.log('end date: ', currMarker.getLngLat())
+			// console.log("updating map");
+            // console.log('start date: ', initMarker.getLngLat())
+            // console.log('end date: ', currMarker.getLngLat())
 			map.flyTo({ center: [currLong, currLat], speed: 0.2, curve: 1 });
 			currMarker.setLngLat([currLong, currLat]).addTo(map);
             getDistance();
@@ -62,27 +65,33 @@ var customCordovaApp = {
         var getDistance = function () {
             let line = turf.lineString([[initLong, initLat], [currLong, currLat]]);
             distance = turf.length(line, {units: 'meters'});
-            distance = distance.toFixed(2);
-            $('#distance-travelled').text(distance);
+            distance = parseFloat(distance.toFixed(1));
+            // console.log('distance: ', distance);
+            if (distance > 999) {
+                $('#distance-travelled').text((distance / 1000).toFixed(1));
+                $('#distance-unit').text('KM');
+            } else {
+                $('#distance-travelled').text((distance).toFixed(1));
+                $('#distance-unit').text('M');
+            }
         }
 
-		var getGeoJSON = function () {
-			console.log("get geojson");
-			return JSON.stringify({
-				type: "Feature",
-				properties: {},
-				geometry: {
-					type: "LineString",
-					coordinates: directionHistory,
-				},
-			});
-		};
+		// var getGeoJSON = function () {
+		// 	console.log("get geojson");
+		// 	return JSON.stringify({
+		// 		type: "Feature",
+		// 		properties: {},
+		// 		geometry: {
+		// 			type: "LineString",
+		// 			coordinates: directionHistory,
+		// 		},
+		// 	});
+		// };
 
 		var currentGeoSuccess = function (position) {
 			initLat = position.coords.latitude;
 			initLong = position.coords.longitude;
             initMap();
-
 		};
 
 		var currentGeoError = function (error) {
@@ -142,8 +151,8 @@ var customCordovaApp = {
 					stepCount = 0;
 				}
 
-				$("#step-count-top").text(stepCount/2);
-				$("#step-count-bottom").text(stepCount/2);
+				$("#step-count-top").text((parseInt(stepCount/2)));
+				$("#step-count-bottom").text((parseInt(stepCount/2)));
 
 				console.log("step count: ", stepCount/2);
 			},

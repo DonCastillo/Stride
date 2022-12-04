@@ -1,9 +1,9 @@
 <template>
   <div class="page" data-name="home">
-    <div class="page-content" style="background-color:orange;">
+    <div class="page-content">
       <div id="dashboard">
-        <div id="map"></div>
-        <div id="stats">
+        <div id="map" class="bg-black"></div>
+        <div id="stats" class="bg-black elevation-10">
 
           <div class="block bg-pink">
             <div class="row">
@@ -14,7 +14,10 @@
                       <i class="fa-solid fa-ruler"></i>
                     </div>
                     <div>
-                      <span id="distance-travelled" class="stat-text">0</span> KM
+                      <div class="stat-text">
+                        <span id="distance-travelled" class="stat-text">0</span>  
+                        <span id="distance-unit" class="margin-left">M</span>
+                      </div>
                     </div>
                 </div>
 
@@ -41,7 +44,7 @@
             </div>
           </div>
 
-          <div class="block running-block-bottom text-align-center bg-pink">
+          <div class="block running-block-bottom text-align-center bg-black">
             <div class="row display-inline-flex flex-direction-row justify-content-center align-items-center">
               <div class="stat-icon">
                 <i class="fa-solid fa-person-running"></i>
@@ -52,9 +55,14 @@
             </div>
           </div>
 
-          <div class="block bg-pink">
-            <div class="row">
-              <button class="col button button-large button-raised button-fill">Raised Fill</button>
+          <div class="block">
+            <div class="row margin-bottom">
+              <div class="col-100 button button-large button-raised button-fill" id="start-measuring">
+                Start Measuring
+              </div>
+              <div class="col-100 button button-large button-raised button-fill bg-red" id="stop-measuring">
+                Stop Measuring
+              </div>
             </div>
           </div>
           
@@ -65,6 +73,7 @@
 </template>
 <script>
 export default ((props, {$f7, $}) => {
+
   return $render;
 })
 </script>
