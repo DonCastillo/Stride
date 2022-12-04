@@ -8,106 +8,85 @@ mapboxgl.accessToken =
 
 $(document).on("page:init", '.page[data-name="home"]', function (e) {});
 
+$(document).ready(function () {});
 
+// map vars
+var currLat = 0;
+var currLong = 0;
+var initLat = 0;
+var initLong = 0;
+var zoom = 17;
+var map;
+var initMarker;
+var currMarker;
+var distance = 0;
+var unit = 'M';
+var geoOpts = {
+	enableHighAccuracy: true,
+};
 
+// ped vars
+var prevMagnitude = 0;
+var stepCount = 0;
+var threshold = 6;
+var flag = 0;
 
 
 var customCordovaApp = {
 	f7: null,
-	geolocation: function () {
-		console.log("initializing geolocation");
-		console.log("jquery: ", $);
 
-        var currLat = 0;
-        var currLong = 0;
-        var initLat = 0;
-        var initLong = 0;
-        var zoom = 17;
-        var map;
-        var initMarker;
-        var currMarker;
-        var distance = 0;
-        var unit = 'M';
+	getDistance: function () {
+		let line = turf.lineString([[initLong, initLat], [currLong, currLat]]);
+		distance = turf.length(line, {units: 'meters'});
+		distance = parseFloat(distance.toFixed(1));
+		// console.log('distance: ', distance);
+		if (distance > 999) {
+			$('#distance-travelled').text((distance / 1000).toFixed(1));
+			$('#distance-unit').text('KM');
+		} else {
+			$('#distance-travelled').text((distance).toFixed(1));
+			$('#distance-unit').text('M');
+		}
+	},
 
-		var directionHistory = []; // contains history of coordinates as updated by the watchPosition
-		var geoOpts = {
-			enableHighAccuracy: true,
-		};
-		var times = 0;
+	updateMap: function () {
+		map.flyTo({ center: [currLong, currLat], speed: 0.2, curve: 1 });
+		currMarker.setLngLat([currLong, currLat]).addTo(map);
+		customCordovaApp.getDistance();
+	},
 
-		var initMap = function () {
-			map = new mapboxgl.Map({
-				container: "map",
-				style: "mapbox://styles/mapbox/streets-v12?optimize=true",
-				center: [initLong, initLat],
-				zoom: zoom,
-			});
+	initMap: function () {
+		map = new mapboxgl.Map({
+			container: "map",
+			style: "mapbox://styles/mapbox/streets-v12?optimize=true",
+			center: [initLong, initLat],
+			zoom: zoom,
+		});
 
-			initMarker = new mapboxgl.Marker({color: 'gray'}).setLngLat([initLong, initLat]).addTo(map);
-			currMarker = new mapboxgl.Marker({}).setLngLat([initLong, initLat]).addTo(map);
-            getDistance();
+		initMarker = new mapboxgl.Marker({color: 'gray'}).setLngLat([initLong, initLat]).addTo(map);
+		currMarker = new mapboxgl.Marker({}).setLngLat([initLong, initLat]).addTo(map);
+	},
 
-			map.on("load", () => {
-			    setInterval(updateMap, 2000);
-			});
-		};
-
-
-		var updateMap = function () {
-			// console.log("updating map");
-            // console.log('start date: ', initMarker.getLngLat())
-            // console.log('end date: ', currMarker.getLngLat())
-			map.flyTo({ center: [currLong, currLat], speed: 0.2, curve: 1 });
-			currMarker.setLngLat([currLong, currLat]).addTo(map);
-            getDistance();
-		};
-
-        var getDistance = function () {
-            let line = turf.lineString([[initLong, initLat], [currLong, currLat]]);
-            distance = turf.length(line, {units: 'meters'});
-            distance = parseFloat(distance.toFixed(1));
-            // console.log('distance: ', distance);
-            if (distance > 999) {
-                $('#distance-travelled').text((distance / 1000).toFixed(1));
-                $('#distance-unit').text('KM');
-            } else {
-                $('#distance-travelled').text((distance).toFixed(1));
-                $('#distance-unit').text('M');
-            }
-        }
-
-		// var getGeoJSON = function () {
-		// 	console.log("get geojson");
-		// 	return JSON.stringify({
-		// 		type: "Feature",
-		// 		properties: {},
-		// 		geometry: {
-		// 			type: "LineString",
-		// 			coordinates: directionHistory,
-		// 		},
-		// 	});
-		// };
-
+	initGeolocation: function () {
 		var currentGeoSuccess = function (position) {
 			initLat = position.coords.latitude;
 			initLong = position.coords.longitude;
-            initMap();
+			// enable start measuring
+            customCordovaApp.initMap();
 		};
 
 		var currentGeoError = function (error) {
+			// display error message
 			console.log("current geo error: ", error.message);
-			// cannot render map
 		};
 
 		var watchGeoSuccess = function (position) {
 			currLat = position.coords.latitude;
 			currLong = position.coords.longitude;
-			// updateMap();
 		};
 
 		var watchGeoError = function (error) {
 			console.log("watch geo error: ", error.message);
-			// cannot update location
 		};
 
 		navigator.geolocation.getCurrentPosition(
@@ -115,18 +94,14 @@ var customCordovaApp = {
 			currentGeoError,
 			geoOpts
 		);
+
 		navigator.geolocation.watchPosition(
 			watchGeoSuccess,
 			watchGeoError,
 			geoOpts
 		);
 	},
-	pedometer: function () {
-		let prevMagnitude = 0;
-		let stepCount = 0;
-		let threshold = 6;
-		let flag = 0;
-
+	initPedometer: function () {
 		window.addEventListener(
 			"devicemotion",
 			(event) => {
@@ -155,22 +130,62 @@ var customCordovaApp = {
 				$("#step-count-bottom").text((parseInt(stepCount/2)));
 
 				console.log("step count: ", stepCount/2);
-			},
-			true
+			}
 		);
 	},
 	init: function (f7) {
 		console.log("init customcordova app");
 		customCordovaApp.f7 = f7;
 
+		// device ready
 		document.addEventListener("deviceready", () => {
 			try {
-				customCordovaApp.geolocation();
-				customCordovaApp.pedometer();
+				customCordovaApp.initGeolocation();
 			} catch (e) {
 				console.log(e);
 			}
 		});
+
+		// document ready
+		$(document).ready(function() {
+			let mapUpdater;
+
+			$('#start-measuring').on('click', function() {
+				console.log('start measuring  fdfdf...')
+				$('#start-measuring').hide();
+				$('#stop-measuring').show();
+
+				mapUpdater = setInterval(customCordovaApp.updateMap, 2000);
+				customCordovaApp.initPedometer();
+			});
+			
+			$('#stop-measuring').on('click', function() {
+				console.log('stop measuring...')
+
+				$('#stop-measuring').hide();
+				$('#start-measuring').show();
+				clearInterval(mapUpdater);
+				window.removeEventListener('devicemotion');
+
+
+				prevMagnitude = 0;
+				stepCount = 0;
+				flag = 0;
+				currLat = 0;
+				currLong = 0;
+				initLat = 0;
+				initLong = 0;
+				distance = 0;
+
+				$('#distance-travelled').text(0);
+				$('#distance-unit').text('M');
+				$('#step-count-top').text(0);
+				$('#step-count-bottom').text(0);
+			});
+
+		});
+
+
 	},
 };
 
