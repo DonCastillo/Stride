@@ -34,5 +34,9 @@
     "platforms": [
       "android"
     ]
+  },
+  "dependencies": {
+    "@turf/turf": "^6.5.0",
+    "easytimer.js": "^4.5.4"
   }
 }

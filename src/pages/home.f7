@@ -64,7 +64,7 @@
   </div>
 </template>
 <script>
-export default () => {
+export default ((props, {$f7, $}) => {
   return $render;
-}
+})
 </script>
