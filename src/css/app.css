@@ -1,11 +1,21 @@
+:root {
+  --f7-theme-color: #28b463 ;
+  --f7-theme-color-rgb:  40, 180, 99;
+  --f7-theme-color-shade:  #239b56;
+  --f7-theme-color-tint: #2ecc71;
+}
+
 /* iOS Cordova Tweak */
 .device-cordova.device-ios {
   height: 100vh;
 }
 
 /* Your app custom styles here */
-.bg-pink {
-  background-color: pink;
+.bg-black {
+  background-color:#455a64;
+}
+.bg-red {
+  background-color: #ff3b30;
 }
 .block {
   padding-top: 20px;
@@ -13,8 +23,9 @@
   margin: 0;
 }
 i.fa-solid {
-  font-size:2rem;
+  font-size:1.7rem;
   margin:5px;
+  color:white;
 }
 .running-block-bottom {
   display:block;
@@ -24,33 +35,38 @@ i.fa-solid {
 }
 .stat-text {
   font-size: 1.35rem;
-  font-weight:bold;
+  color: white;
+  font-size:1.1rem;
+  font-weight:light;
+}
+.stat-text #distance-unit {
+  font-weight:light;
+  text-transform: lowercase;
 }
 #map {
   height: 100%;
   width:100%;
 }
 #dashboard {
-  background-color: greenyellow;
   height:100vh;
   position:relative;
 }
 #map {
-  background-color: orange;
-  /* height:70vh; */
-}
-#map {
-  background-color: skyblue;
 }
 #stats {
-  background-color: teal;
   /* height:30vh; */
   width:100%;
   position: absolute;
   bottom: 0;
   left: 0;
+  z-index:9;
 }
-
+#start-measuring {
+  display:block;
+}
+#stop-measuring {
+  display:none;
+}
 @media (min-width:500px) {
   #map-container {
     /* height:auto;
