@@ -3,12 +3,9 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import * as turf from '@turf/turf';
 import Timer from 'easytimer.js';
+import moment from 'moment';
 mapboxgl.accessToken =
 	"pk.eyJ1IjoiZG9uY2FzdGlsbG8iLCJhIjoiY2p6cTN2eDhwMHdqZjNvanNhMGk0cTRhaCJ9.rfa3wF7Pz3VRhpyENHGCpQ";
-
-$(document).on("page:init", '.page[data-name="home"]', function (e) {});
-
-$(document).ready(function () {});
 
 // map vars
 var currLat = 0;
@@ -139,20 +136,14 @@ var customCordovaApp = {
 
 	startTimer: function () {
 		timer.addEventListener('secondTenthsUpdated', function(e) {
-			// insert time
 			$('#elapsed-time').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
 		});
-		timer.addEventListener('stopped', function (e) {
-			// reset
-			$('#elapsed-time').html(timer.getTimeValues().toString());
-		})
 		timer.start({precision: 'secondTenths'});
 	},
 
 	resetTimer: function () {
 		timer.stop();
 		timer.removeEventListener('secondTenthsUpdated');
-		timer.removeEventListener('stopped');
 	},
 
 	init: function (f7) {
@@ -191,6 +182,13 @@ var customCordovaApp = {
 				clearInterval(mapUpdater);
 				window.removeEventListener('devicemotion');
 
+				// record last reading
+				$('#last-reading #lr-date').text(moment().format('MM/DD/YY'));
+				$('#last-reading #lr-dist').text($('#distance-travelled').text() + ' ' + $('#distance-unit').text());
+				$('#last-reading #lr-time').text($('#elapsed-time').text());
+				$('#last-reading #lr-steps').text($('#step-count-top').text() + ' steps');
+				$('#last-reading').show();
+
 
 				prevMagnitude = 0;
 				stepCount = 0;
@@ -203,6 +201,7 @@ var customCordovaApp = {
 
 				$('#distance-travelled').text(0);
 				$('#distance-unit').text('M');
+				$('#elapsed-time').text('00:00:00:0');
 				$('#step-count-top').text(0);
 				$('#step-count-bottom').text(0);
 			});

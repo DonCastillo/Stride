@@ -61,6 +61,21 @@ i.fa-solid {
   left: 0;
   z-index:9;
 }
+#last-reading {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 20px;
+  z-index: 99;
+  background-color: #fff;
+  font-weight: normal;
+  font-size: 0.7rem;
+}
+#last-reading #lr-dist {
+  text-transform: lowercase;
+}
 #start-measuring {
   display:block;
 }

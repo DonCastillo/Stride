@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@turf/turf": "^6.5.0",
-    "easytimer.js": "^4.5.4"
+    "easytimer.js": "^4.5.4",
+    "moment": "^2.29.4"
   }
 }
