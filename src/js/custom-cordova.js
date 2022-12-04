@@ -2,7 +2,7 @@ import $ from "jquery";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import * as turf from '@turf/turf';
-// import Timer from 'easytimer.js';
+import Timer from 'easytimer.js';
 mapboxgl.accessToken =
 	"pk.eyJ1IjoiZG9uY2FzdGlsbG8iLCJhIjoiY2p6cTN2eDhwMHdqZjNvanNhMGk0cTRhaCJ9.rfa3wF7Pz3VRhpyENHGCpQ";
 
@@ -31,6 +31,8 @@ var stepCount = 0;
 var threshold = 6;
 var flag = 0;
 
+// timer
+var timer = new Timer();
 
 var customCordovaApp = {
 	f7: null,
@@ -101,6 +103,7 @@ var customCordovaApp = {
 			geoOpts
 		);
 	},
+
 	initPedometer: function () {
 		window.addEventListener(
 			"devicemotion",
@@ -133,6 +136,25 @@ var customCordovaApp = {
 			}
 		);
 	},
+
+	startTimer: function () {
+		timer.addEventListener('secondTenthsUpdated', function(e) {
+			// insert time
+			$('#elapsed-time').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+		});
+		timer.addEventListener('stopped', function (e) {
+			// reset
+			$('#elapsed-time').html(timer.getTimeValues().toString());
+		})
+		timer.start({precision: 'secondTenths'});
+	},
+
+	resetTimer: function () {
+		timer.stop();
+		timer.removeEventListener('secondTenthsUpdated');
+		timer.removeEventListener('stopped');
+	},
+
 	init: function (f7) {
 		console.log("init customcordova app");
 		customCordovaApp.f7 = f7;
@@ -157,6 +179,7 @@ var customCordovaApp = {
 
 				mapUpdater = setInterval(customCordovaApp.updateMap, 2000);
 				customCordovaApp.initPedometer();
+				customCordovaApp.startTimer();
 			});
 			
 			$('#stop-measuring').on('click', function() {
@@ -164,6 +187,7 @@ var customCordovaApp = {
 
 				$('#stop-measuring').hide();
 				$('#start-measuring').show();
+				customCordovaApp.resetTimer();
 				clearInterval(mapUpdater);
 				window.removeEventListener('devicemotion');
 

@@ -27,7 +27,7 @@
                     <i class="fa-solid fa-stopwatch"></i>
                   </div>
                   <div id="elapsed-time" class="stat-text">
-                    0:00:00
+                    00:00:00:0
                   </div>
                 </div>
 
