@@ -27,6 +27,10 @@ You should have node, npm, cordova, and Android studio already installed
 ### To deploy for production
   1. `npm run build`
 
-<img src="./docs/screenshot.png" height="500">
+
+## Description
 Pedometers like Fitbit and Apple Health have been widely used apps to track the number of steps taken by a person throughout a certain period. With the popularity of pedometers, I have created my own version called Stride. Stride uses the accelerometer api to estimate the number of steps taken by the user. It also uses the geolocation plugin to track user movement and to measure his distance from the original position to his current position.
 
+
+
+<img src="./docs/screenshot.png" height="500">
