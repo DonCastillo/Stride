@@ -1,95 +1,32 @@
 # Stride
+<img src="./docs/cordova-android-icon.png" height="200" width="200">
+Assignment 2 in NMED 3630: Mobile Application Development
+<br>
+Click here to view [exercise](./docs/MobileApp-AssignmentTwo.pdf) description.
 
-## Framework7 CLI Options
+## Minimum requirements:
+You should have node, npm, cordova, and Android studio already installed
 
-Framework7 app created with following options:
+## Steps to run the project
+  1. Clone the repo
+  2. Enter `cd Stride`
+  3. `npm i` to install dependencies
+ 
+ ### To run locally on the browser
+  4. `npm run start` to compile the components
+ 
+ ### To run locally on the emulator
+  4. `npm run install-cordova-dev` to install cordova dependencies, plugins, and add android as a platform
+  5. `npm run build-cordova` to compile components as cordova-based
+  6. `npm run emulate` to run the emulator
 
-```
-{
-  "cwd": "D:\\NMED 3630\\Stride",
-  "type": [
-    "cordova"
-  ],
-  "name": "Stride",
-  "framework": "core",
-  "template": "single-view",
-  "bundler": "vite",
-  "cssPreProcessor": false,
-  "theming": {
-    "customColor": false,
-    "color": "#007aff",
-    "darkTheme": false,
-    "iconFonts": true,
-    "fillBars": false
-  },
-  "customBuild": false,
-  "pkg": "io.framework7.myapp",
-  "cordova": {
-    "folder": "cordova",
-    "platforms": [
-      "android"
-    ],
-    "plugins": [
-      "cordova-plugin-statusbar",
-      "cordova-plugin-keyboard",
-      "cordova-plugin-splashscreen"
-    ]
-  }
-}
-```
+### To run on the connected device
+  6. connect the android device
+  7. cd to `cordova` and run `npx cordova run android`
+   
+### To deploy for production
+  1. `npm run build`
 
-## Install Dependencies
+<img src="./docs/screenshot.png" height="300">
+Pedometers like Fitbit and Apple Health have been widely used apps to track the number of steps taken by a person throughout a certain period. With the popularity of pedometers, I have created my own version called Stride. Stride uses the accelerometer api to estimate the number of steps taken by the user. It also uses the geolocation plugin to track user movement and to measure his distance from the original position to his current position.
 
-First of all we need to install dependencies, run in terminal
-```
-npm install
-```
-
-## NPM Scripts
-
-* 🔥 `start` - run development server
-* 🔧 `dev` - run development server
-* 🔧 `build` - build web app for production
-* 📱 `build-cordova` - build cordova app
-
-## Vite
-
-There is a [Vite](https://vitejs.dev) bundler setup. It compiles and bundles all "front-end" resources. You should work only with files located in `/src` folder. Vite config located in `vite.config.js`.
-## Cordova
-
-Cordova project located in `cordova` folder. You shouldn't modify content of `cordova/www` folder. Its content will be correctly generated when you call `npm run cordova-build-prod`.
-
-
-
-
-
-## Assets
-
-Assets (icons, splash screens) source images located in `assets-src` folder. To generate your own icons and splash screen images, you will need to replace all assets in this directory with your own images (pay attention to image size and format), and run the following command in the project directory:
-
-```
-framework7 assets
-```
-
-Or launch UI where you will be able to change icons and splash screens:
-
-```
-framework7 assets --ui
-```
-
-
-
-## Documentation & Resources
-
-* [Framework7 Core Documentation](https://framework7.io/docs/)
-
-
-
-* [Framework7 Icons Reference](https://framework7.io/icons/)
-* [Community Forum](https://forum.framework7.io)
-
-## Support Framework7
-
-Love Framework7? Support project by donating or pledging on:
-- Patreon: https://patreon.com/framework7
-- OpenCollective: https://opencollective.com/framework7
