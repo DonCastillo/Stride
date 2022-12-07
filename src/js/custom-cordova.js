@@ -77,6 +77,7 @@ var customCordovaApp = {
 		var currentGeoError = function (error) {
 			// display error message
 			console.log("current geo error: ", error.message);
+			alert("Geolocation disabled.");
 		};
 
 		var watchGeoSuccess = function (position) {
@@ -86,6 +87,7 @@ var customCordovaApp = {
 
 		var watchGeoError = function (error) {
 			console.log("watch geo error: ", error.message);
+			alert("Geolocation update disabled.");
 		};
 
 		navigator.geolocation.getCurrentPosition(
